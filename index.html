@@ -137,11 +137,11 @@
 
       if (userId) {
         // Fetch user data from the Roblox API
-        fetch(https://users.roblox.com/v1/users/${userId})
+        fetch(`https://users.roblox.com/v1/users/${userId}`)
           .then(response => response.json())
           .then(data => {
             document.getElementById('display-name').innerText = data.displayName;
-            document.getElementById('user-handle').innerText = @${data.name};
+            document.getElementById('user-handle').innerText = `@${data.name}`;
             document.getElementById('join-date').innerText = new Date(data.created).toLocaleDateString();
             document.getElementById('about').innerText = data.description || 'No description available.';
           })
