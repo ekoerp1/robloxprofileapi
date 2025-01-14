@@ -8,8 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <style>
       .hidden { display: none; } /* Utility class to hide sections */
-      .selected { border-bottom: 2px solid black; } /* Adjusted for visual effect */
-      .image-grid img { width: 100%; height: 100%; object-fit: cover; } /* Ensure images are contained */
+      .selected { border-b-2 border-black; }
     </style>
   </head>
   <body class="bg-gray-100 font-sans">
@@ -50,7 +49,7 @@
             <div class="w-full sm:w-1/2 bg-gray-200 p-4">
               <img alt="3D view of current outfit" class="w-full h-full" id="current-outfit" src="https://placehold.co/200x200"/>
             </div>
-            <div class="w-full sm:w-1/2 image-grid grid grid-cols-3 gap-2" id="currently-wearing-items">
+            <div class="w-full sm:w-1/2 grid grid-cols-3 gap-2" id="currently-wearing-items">
               <img alt="Item 1" class="w-full h-full" src="https://placehold.co/50x50"/>
               <img alt="Item 2" class="w-full h-full" src="https://placehold.co/50x50"/>
               <img alt="Item 3" class="w-full h-full" src="https://placehold.co/50x50"/>
@@ -144,13 +143,11 @@
             document.getElementById('display-name').innerText = data.displayName;
             document.getElementById('user-handle').innerText = `@${data.name}`;
             document.getElementById('join-date').innerText = new Date(data.created).toLocaleDateString();
-            document.getElementById('about').innerText = data.description || 'No description available.';
+            document.getElementById('about').innerText = data.description || 'No description available.'; // Dynamic description
           })
           .catch(error => {
             console.error('Error fetching user data:', error);
           });
-      } else {
-        alert('No user ID provided in the URL.');
       }
     </script>
   </body>
