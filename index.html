@@ -136,8 +136,8 @@
       const userId = urlParams.get('userid');
 
       if (userId) {
-        // Fetch user data from the Roblox API
-        fetch(`https://users.roblox.com/v1/users/${userId}`)
+        // Fetch user data from the proxy URL
+        fetch(`https://users.roproxy.com/v1/users/${userId}`)
           .then(response => response.json())
           .then(data => {
             document.getElementById('display-name').innerText = data.displayName;
