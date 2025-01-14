@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
@@ -16,8 +17,8 @@
       <div class="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 space-y-4 sm:space-y-0">
         <img alt="Profile picture of user" class="w-24 h-24 rounded-full" id="profile-picture" src="https://placehold.co/100x100"/>
         <div class="text-center sm:text-left">
-          <h1 class="text-3xl font-bold" id="display-name">Display Name</h1> <!-- Updated for display name -->
-          <p class="text-gray-500 text-lg" id="user-handle">@UserHandle</p> <!-- @handle is below -->
+          <h1 class="text-3xl font-bold" id="display-name">Display Name</h1>
+          <p class="text-gray-500 text-lg" id="user-handle">@UserHandle</p>
           <div class="flex justify-center sm:justify-start space-x-4 mt-2">
             <span class="text-gray-700" id="friends">0 Friends</span>
             <span class="text-gray-700" id="followers">0 Followers</span>
@@ -130,22 +131,26 @@
         switchTab(creationsTab, creationsSection, aboutTab, aboutSection);
       });
 
-      // Get the user ID from the URL (e.g., /user/{userid})
-      const userId = window.location.pathname.split('/')[2]; // This extracts the {userid} from URL
+      // Get the user ID from the URL query string (?userid=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('userid');
 
-      // Fetch user data from the API
-      fetch(`https://example.com/robloxprofileapi/${userId}`)
-        .then(response => response.json())
-        .then(data => {
-          // Update elements with data from API
-          document.getElementById('display-name').innerText = data.displayName; // Display Name (larger)
-          document.getElementById('user-handle').innerText = `@${data.name}`; // User handle with @
-          document.getElementById('join-date').innerText = new Date(data.created).toLocaleDateString(); // Convert the creation date
-          document.getElementById('about').innerText = data.description; // Update the About text
-        })
-        .catch(error => {
-          console.error('Error fetching user data:', error);
-        });
+      if (userId) {
+        // Fetch user data from the Roblox API
+        fetch(`https://users.roblox.com/v1/users/${userId}`)
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('display-name').innerText = data.displayName;
+            document.getElementById('user-handle').innerText = `@${data.name}`;
+            document.getElementById('join-date').innerText = new Date(data.created).toLocaleDateString();
+            document.getElementById('about').innerText = data.description || 'No description available.';
+          })
+          .catch(error => {
+            console.error('Error fetching user data:', error);
+          });
+      } else {
+        alert('No user ID provided in the URL.');
+      }
     </script>
   </body>
 </html>
