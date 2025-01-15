@@ -151,9 +151,11 @@
           fetch(`https://friends.roproxy.com/v1/users/${userId}/followings/count`).then(response => response.json()),
           fetch(`https://friends.roproxy.com/v1/users/${userId}/friends/count`).then(response => response.json()),
           fetch(`https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=false`)
-            .then(response => response.json()),
+            .then(response => response.json())
+            .then(data => data[0]?.url || 'https://placehold.co/150x150'),
           fetch(`https://thumbnails.roproxy.com/v1/users/avatar?userIds=${userId}&size=250x250&format=Png&isCircular=false`)
             .then(response => response.json())
+            .then(data => data[0]?.url || 'https://placehold.co/200x200')
         ])
         .then(([userData, followersData, followingData, friendsData, avatarData, outfitData]) => {
           // Update the DOM with the fetched data
@@ -168,15 +170,15 @@
           // Add the verified badge if the user is verified
           if (userData.hasVerifiedBadge) {
             const verifiedBadge = document.createElement('img');
-            verifiedBadge.src = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28' fill='none'%3E%3Cg clip-path='url(%23clip0_8_46)'%3E%3Crect x='5.88818' width='22.89' height='22.89' transform='rotate(15 5.88818 0)' fill='%230066FF'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M20.543 8.7508L20.549 8.7568C21.15 9.3578 21.15 10.3318 20.549 10.9328L11.817 19.6648L7.45 15.2968C6.85 14.6958 6.85 13.7228 7.45 13.1218L10.832 9.7398C11.442 9.1388 12.416 9.1388 13.017 9.7398L16.13 12.8528L18.952 10.0308C19.553 9.4298 19.553 8.4568 18.952 7.8558C18.351 7.2548 17.378 7.2548 16.777 7.8558L14.295 10.3378L13.017 9.7398L10.832 9.7398L7.45 13.1218L9.325 14.9968L11.817 17.4888L20.543 8.7508Z' fill='white'/%3E%3C/g%3E%3C/svg%3E";
+            verifiedBadge.src = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath fill-rule='evenodd' d='M20.543 8.7508L18.952 7.8558C18.351 7.2548 17.378 7.2548 16.777 7.8558L13.017 10.6168L10.832 9.7398C11.442 9.1388 12.416 9.1388 13.017 9.7398L16.13 12.8528L18.952 10.0308C19.553 9.4298 19.553 8.4568 18.952 7.8558C18.351 7.2548 17.378 7.2548 16.777 7.8558L14.295 10.3378L13.017 9.7398L10.832 9.7398L7.45 13.1218L9.325 14.9968L11.817 17.4888L20.543 8.7508Z' fill='white'/%3E%3C/g%3E%3C/svg%3E";
             verifiedBadge.alt = "Verified";
             verifiedBadge.classList.add("ml-2", "w-6", "h-6", "inline-block");
             document.getElementById('display-name').appendChild(verifiedBadge);
           }
 
-          // Profile Picture and Current Outfit
-          document.getElementById('profile-picture').src = avatarData[0].url;
-          document.getElementById('current-outfit').src = outfitData[0].url;
+          // Update profile picture and full body shot
+          document.getElementById('profile-picture').src = avatarData;
+          document.getElementById('current-outfit').src = outfitData;
         })
         .catch(error => console.error("Error fetching data:", error));
       }
