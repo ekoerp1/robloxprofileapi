@@ -144,31 +144,26 @@
       const userId = urlParams.get('userid');
 
       if (userId) {
-        fetch(`https://users.roproxy.com/v1/users/${userId}`)
-          .then(response => response.json())
-          .then(data => {
-            document.getElementById('display-name').innerText = data.displayName;
-            document.getElementById('user-handle').innerText = `@${data.name}`;
-            document.getElementById('join-date').innerText = new Date(data.created).toLocaleDateString();
-            document.getElementById('about').innerText = data.description || 'No description available.';
-
-            // Fetch follower count
-            return fetch(`https://friends.roproxy.com/v1/users/${userId}/followers/count`);
-          })
-          .then(response => response.json())
-          .then(data => {
-            document.getElementById('followers').innerText = `${data.count} Followers`;
-
-            // Fetch following count
-            return fetch(`https://friends.roproxy.com/v1/users/${userId}/followings/count`);
-          })
-          .then(response => response.json())
-          .then(data => {
-            document.getElementById('following').innerText = `${data.count} Following`;
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-          });
+        // Fetch all data concurrently
+        Promise.all([
+          fetch(`https://users.roproxy.com/v1/users/${userId}`).then(response => response.json()),
+          fetch(`https://friends.roproxy.com/v1/users/${userId}/followers/count`).then(response => response.json()),
+          fetch(`https://friends.roproxy.com/v1/users/${userId}/followings/count`).then(response => response.json()),
+          fetch(`https://friends.roproxy.com/v1/users/${userId}/friends/count`).then(response => response.json())
+        ])
+        .then(([userData, followersData, followingData, friendsData]) => {
+          // Update the DOM with the fetched data
+          document.getElementById('display-name').innerText = userData.displayName;
+          document.getElementById('user-handle').innerText = `@${userData.name}`;
+          document.getElementById('join-date').innerText = new Date(userData.created).toLocaleDateString();
+          document.getElementById('about').innerText = userData.description || 'No description available.';
+          document.getElementById('followers').innerText = `${followersData.count} Followers`;
+          document.getElementById('following').innerText = `${followingData.count} Following`;
+          document.getElementById('friends').innerText = `${friendsData.count} Friends`;
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
       }
     </script>
   </body>
