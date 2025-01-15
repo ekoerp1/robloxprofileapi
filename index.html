@@ -158,6 +158,13 @@
           .then(response => response.json())
           .then(data => {
             document.getElementById('followers').innerText = `${data.count} Followers`;
+
+            // Fetch following count
+            return fetch(`https://friends.roproxy.com/v1/users/${userId}/followings/count`);
+          })
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('following').innerText = `${data.count} Following`;
           })
           .catch(error => {
             console.error('Error fetching data:', error);
