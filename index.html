@@ -13,6 +13,14 @@
       .selected {
         border-b-2 border-black;
       }
+      .verified-badge {
+        background-color: #1d9bf0;
+        color: white;
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+      }
     </style>
   </head>
   <body class="bg-gray-100 font-sans">
@@ -159,6 +167,15 @@
           // Update the DOM with the fetched data
           document.getElementById('display-name').innerText = userData.displayName;
           document.getElementById('user-handle').innerText = `@${userData.name}`;
+          
+          // Add Verified Badge if the user is verified
+          if (userData.isVerified) {
+            const verifiedBadge = document.createElement('span');
+            verifiedBadge.classList.add('verified-badge');
+            verifiedBadge.innerText = 'Verified';
+            document.getElementById('display-name').appendChild(verifiedBadge);
+          }
+
           document.getElementById('join-date').innerText = new Date(userData.created).toLocaleDateString();
           document.getElementById('about').innerText = userData.description || 'No description available.';
           document.getElementById('followers').innerText = `${followersData.count} Followers`;
