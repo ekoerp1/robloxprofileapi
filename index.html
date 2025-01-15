@@ -151,9 +151,11 @@
           fetch(`https://friends.roproxy.com/v1/users/${userId}/followings/count`).then(response => response.json()),
           fetch(`https://friends.roproxy.com/v1/users/${userId}/friends/count`).then(response => response.json()),
           fetch(`https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=false`)
+            .then(response => response.json()),
+          fetch(`https://thumbnails.roproxy.com/v1/users/avatar?userIds=${userId}&size=250x250&format=Png&isCircular=false`)
             .then(response => response.json())
         ])
-        .then(([userData, followersData, followingData, friendsData, avatarData]) => {
+        .then(([userData, followersData, followingData, friendsData, avatarData, outfitData]) => {
           // Update the DOM with the fetched data
           document.getElementById('display-name').innerText = userData.displayName;
           document.getElementById('user-handle').innerText = `@${userData.name}`;
@@ -166,6 +168,10 @@
           // Update profile picture
           const profileImage = avatarData.data[0].imageUrl;
           document.getElementById('profile-picture').src = profileImage;
+
+          // Update current outfit image
+          const currentOutfitImage = outfitData.data[0].imageUrl;
+          document.getElementById('current-outfit').src = currentOutfitImage;
         })
         .catch(error => {
           console.error('Error fetching data:', error);
