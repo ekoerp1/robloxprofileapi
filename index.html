@@ -157,7 +157,7 @@
           // Check if user has a verified badge and add badge
           if (userData.hasVerifiedBadge) {
             const verifiedBadge = document.createElement('span');
-            verifiedBadge.classList.add('bg-blue-500', 'text-white', 'px-2', 'py-1', 'rounded-full', 'text-sm', 'ml-2');
+            verifiedBadge.classList.add('verified-badge');
             verifiedBadge.innerText = 'Verified';
             document.getElementById('display-name').appendChild(verifiedBadge);
           }
