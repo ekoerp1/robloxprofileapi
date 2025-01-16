@@ -2,19 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Profile page for Roblox users" />
-    <meta name="keywords" content="Roblox, Profile, User" />
-    <meta name="author" content="ekoerp1" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Profile Page</title>
-    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="styles.css" rel="stylesheet" />
+    <style>
+      .hidden {
+        display: none;
+      } /* Utility class to hide sections */
+      .selected {
+        border-b-2 border-black;
+      }
+    </style>
   </head>
   <body class="bg-gray-100 font-sans">
     <div class="max-w-4xl mx-auto p-4">
       <!-- Profile Header -->
-      <header class="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 space-y-4 sm:space-y-0">
+      <div class="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 space-y-4 sm:space-y-0">
         <img
           alt="Profile picture of user"
           class="w-24 h-24 rounded-full"
@@ -30,16 +34,16 @@
             <span class="text-gray-700" id="following">0 Following</span>
           </div>
         </div>
-      </header>
+      </div>
 
       <!-- Navigation -->
-      <nav class="mt-4 flex space-x-4 border-b">
+      <div class="mt-4 flex space-x-4 border-b">
         <a id="about-tab" class="py-2 px-4 text-gray-700 selected cursor-pointer">About</a>
         <a id="creations-tab" class="py-2 px-4 text-gray-700 cursor-pointer">Creations</a>
-      </nav>
+      </div>
 
       <!-- About Section -->
-      <section id="about-section" class="mt-4">
+      <div id="about-section" class="mt-4">
         <h2 class="text-lg font-bold">About</h2>
         <p class="text-gray-700" id="about">About text goes here.</p>
 
@@ -80,12 +84,14 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- Creations Section -->
-      <section id="creations-section" class="mt-4 hidden">
+      <div id="creations-section" class="mt-4 hidden">
         <h2 class="text-lg font-bold">Experiences</h2>
-        <div class="flex flex-col sm:flex-row items-center sm:items-start space-x-0 sm:space-x-4 mt-2 border border-gray-300 p-4">
+        <div
+          class="flex flex-col sm:flex-row items-center sm:items-start space-x-0 sm:space-x-4 mt-2 border border-gray-300 p-4"
+        >
           <img alt="Roblox game thumbnail" class="w-36 h-36" src="https://placehold.co/150x150" />
           <div class="text-center sm:text-left mt-4 sm:mt-0">
             <h3 class="text-xl font-bold" id="place-name">Place Name</h3>
@@ -103,14 +109,14 @@
           </div>
         </div>
         <div class="flex justify-between mt-4">
-          <button class="text-gray-500" aria-label="Previous">
+          <button class="text-gray-500">
             <i class="fas fa-arrow-left"></i>
           </button>
-          <button class="text-gray-500" aria-label="Next">
+          <button class="text-gray-500">
             <i class="fas fa-arrow-right"></i>
           </button>
         </div>
-      </section>
+      </div>
     </div>
 
     <script>
@@ -157,7 +163,7 @@
           // Check if user has a verified badge and add badge
           if (userData.hasVerifiedBadge) {
             const verifiedBadge = document.createElement('span');
-            verifiedBadge.classList.add('verified-badge');
+            verifiedBadge.classList.add('bg-blue-500', 'text-white', 'px-2', 'py-1', 'rounded-full', 'text-sm', 'ml-2');
             verifiedBadge.innerText = 'Verified';
             document.getElementById('display-name').appendChild(verifiedBadge);
           }
